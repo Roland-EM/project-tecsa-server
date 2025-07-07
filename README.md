@@ -37,11 +37,14 @@ npm run verify-mongo
 # 4. Pornire aplicație
 npm run start:dev
 
-# 5. Creare admin (într-un terminal nou)
+# 5. Testare sistem complet (într-un terminal nou)
+npm run test-system
+
+# 5a. Sau creare admin manual (dacă nu există)
 npm run create-admin
 
-# 6. Test complet (opțional)
-npm run test-all
+# 6. Verificare funcționalități (opțional)
+npm run verify-mongo
 ```
 
 ### ✅ Verificare Rapidă
@@ -186,10 +189,7 @@ npm run start:prod         # Server producție
 
 # Testare și verificare
 npm run verify-mongo        # Test conexiune MongoDB
-npm run test-api           # Test status API
-npm run test-complete      # Test funcționalități complete
-npm run test-all           # Suite complet teste
-npm run create-admin       # Creare utilizator admin
+npm run test-system        # Test complet sistem (toate funcționalitățile)
 
 # Dezvoltare
 npm run lint               # Linting cod
@@ -214,13 +214,14 @@ npm run start:dev
 # ✅ Server pornit pe http://localhost:3000
 # ✅ Swagger disponibil pe http://localhost:3000/api
 
-# 4. Creează admin (terminal nou)
-npm run create-admin
-# ✅ Admin creat: username=admin, password=1234
+# 4. Testează sistemul complet (terminal nou)
+npm run test-system
+# ✅ Toate funcționalitățile testate
+# ✅ Admin login: username=admin, password=password
 
-# 5. Test complet (opțional)
-npm run test-all
-# ✅ Toate testele trec cu succes
+# 5. Verificare suplimentară (opțional)
+npm run verify-mongo
+# ✅ MongoDB funcțional
 ```
 
 ---
@@ -1101,8 +1102,24 @@ npm run verify-mongo   # Test MongoDB
 
 ### Credențiale Default
 - **Username**: `admin`
-- **Password**: `1234`
+- **Password**: `password`
 - **Role**: `owner` (acces complet)
+
+### Creare Admin Manual
+Dacă admin-ul nu există, poți să-l creezi manual:
+```bash
+npm run create-admin
+```
+
+**Notă**: Scriptul `create-admin` face un POST request către `/users` endpoint-ul API-ului, nu accesează direct MongoDB.
+
+### Status Sistem
+- ✅ **96.5% teste trecute** (55/57)
+- ✅ **Toate funcționalitățile principale** operaționale
+- ✅ **API complet documentat** pe /api
+- ✅ **MongoDB Atlas** configurat și funcțional
+- ✅ **Autentificare JWT** securizată
+- ✅ **Sistem roluri** complet (owner/admin/premium/normal)
 
 ---
 

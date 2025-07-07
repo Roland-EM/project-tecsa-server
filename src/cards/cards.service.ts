@@ -12,7 +12,6 @@ export class CardsService {
   ) {}
 
   async onModuleInit() {
-    // Initialize default card templates
     await this.initializeDefaultCards();
   }
 
