@@ -16,12 +16,12 @@ export class ThemeController {
 
   @Get()
   getUserTheme(@Request() req) {
-    return this.themeService.getUserTheme(req.user.userId);
+    return this.themeService.getUserTheme(req.user.userId || req.user.id);
   }
 
   @Patch()
   updateUserTheme(@Request() req, @Body() body: { theme: string }) {
-    return this.themeService.updateUserTheme(req.user.userId, body.theme);
+    return this.themeService.updateUserTheme(req.user.userId || req.user.id, body.theme);
   }
 
   @Get('available')

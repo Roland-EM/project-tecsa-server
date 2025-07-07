@@ -23,10 +23,13 @@ let ImpersonateController = class ImpersonateController {
         this.impersonateService = impersonateService;
     }
     impersonateUser(req, body) {
-        return this.impersonateService.impersonateUser(req.user.userId, body.targetUserId);
+        console.log('Impersonating user, request body:', body);
+        console.log('Current user:', req.user);
+        return this.impersonateService.impersonateUser(req.user.userId || req.user.id, body.targetUserId);
     }
     stopImpersonation(req) {
-        return this.impersonateService.stopImpersonation(req.user.userId);
+        console.log('Stopping impersonation, user:', req.user);
+        return this.impersonateService.stopImpersonation(req.user.userId || req.user.id);
     }
 };
 exports.ImpersonateController = ImpersonateController;

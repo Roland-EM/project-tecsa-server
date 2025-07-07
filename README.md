@@ -1,6 +1,6 @@
-# 🏠 TECSA - Smart Home Enterprise Backend
+# 🏠 TECSA - Smart Control Backend
 
-Sistem backend NestJS complet pentru controlul IoT smart home cu arhitectură enterprise-grade și integrare React.
+Sistem backend NestJS complet pentru controlul IoT smart cu arhitectură enterprise-grade și integrare React.
 
 ## 📋 Cuprins
 

@@ -13,7 +13,7 @@ async function bootstrap() {
         transform: true,
     }));
     const config = new swagger_1.DocumentBuilder()
-        .setTitle('Smart Home Control API')
+        .setTitle('TECSA Smart Control API')
         .setDescription('Enterprise IoT Control System')
         .setVersion('1.0')
         .addBearerAuth()

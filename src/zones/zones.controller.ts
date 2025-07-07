@@ -24,7 +24,7 @@ export class ZonesController {
   @Post()
   @Roles(Role.OWNER, Role.ADMIN)
   create(@Body() createZoneDto: CreateZoneDto, @Request() req) {
-    return this.zonesService.create(createZoneDto, req.user.userId);
+    return this.zonesService.create(createZoneDto, req.user.userId || req.user.id);
   }
 
   @Get()

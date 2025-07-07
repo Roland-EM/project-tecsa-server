@@ -26,7 +26,7 @@ export class LayoutsController {
     @Query('page') page?: string,
     @Query('zoneId') zoneId?: string,
   ) {
-    return this.layoutsService.findUserLayouts(req.user.userId, page, zoneId);
+    return this.layoutsService.findUserLayouts(req.user.userId || req.user.id, page, zoneId);
   }
 
   @Post()
@@ -42,7 +42,7 @@ export class LayoutsController {
     @Body() addCardInstanceDto: AddCardInstanceDto,
   ) {
     return this.layoutsService.addCardInstance(
-      req.user.userId,
+      req.user.userId || req.user.id,
       page,
       zoneId,
       addCardInstanceDto,
@@ -57,7 +57,7 @@ export class LayoutsController {
     @Query('zoneId') zoneId?: string,
   ) {
     return this.layoutsService.removeCardInstance(
-      req.user.userId,
+      req.user.userId || req.user.id,
       page,
       cardInstanceId,
       zoneId,
@@ -73,7 +73,7 @@ export class LayoutsController {
     @Query('zoneId') zoneId?: string,
   ) {
     return this.layoutsService.updateCardInstance(
-      req.user.userId,
+      req.user.userId || req.user.id,
       page,
       cardInstanceId,
       updateData,
@@ -87,6 +87,6 @@ export class LayoutsController {
     @Param('page') page: string,
     @Query('zoneId') zoneId?: string,
   ) {
-    return this.layoutsService.deleteLayout(req.user.userId, page, zoneId);
+    return this.layoutsService.deleteLayout(req.user.userId || req.user.id, page, zoneId);
   }
 }

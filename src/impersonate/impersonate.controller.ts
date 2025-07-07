@@ -18,11 +18,14 @@ export class ImpersonateController {
 
   @Post('start')
   impersonateUser(@Request() req, @Body() body: { targetUserId: string }) {
-    return this.impersonateService.impersonateUser(req.user.userId, body.targetUserId);
+    console.log('Impersonating user, request body:', body);
+    console.log('Current user:', req.user);
+    return this.impersonateService.impersonateUser(req.user.userId || req.user.id, body.targetUserId);
   }
 
   @Post('stop')
   stopImpersonation(@Request() req) {
-    return this.impersonateService.stopImpersonation(req.user.userId);
+    console.log('Stopping impersonation, user:', req.user);
+    return this.impersonateService.stopImpersonation(req.user.userId || req.user.id);
   }
 }

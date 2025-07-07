@@ -20,11 +20,14 @@ let ImpersonateService = class ImpersonateService {
         this.authService = authService;
     }
     async impersonateUser(moderatorId, targetUserId) {
+        console.log(`Impersonation request - moderator: ${moderatorId}, target: ${targetUserId}`);
         const moderator = await this.usersService.findOne(moderatorId);
         const targetUser = await this.usersService.findOne(targetUserId);
         if (!moderator || !targetUser) {
-            throw new common_1.NotFoundException('User not found');
+            const missingUser = !moderator ? 'moderator' : 'target user';
+            throw new common_1.NotFoundException(`${missingUser} not found`);
         }
+        console.log(`Moderator role: ${moderator.role}, Target role: ${targetUser.role}`);
         if (moderator.role !== role_enum_1.Role.OWNER && moderator.role !== role_enum_1.Role.ADMIN) {
             throw new common_1.UnauthorizedException('Insufficient permissions to impersonate');
         }
@@ -35,6 +38,7 @@ let ImpersonateService = class ImpersonateService {
             throw new common_1.UnauthorizedException('Cannot impersonate user with higher or equal role');
         }
         const impersonationToken = await this.authService.refresh(targetUser);
+        console.log(`Impersonation successful - token generated for ${targetUser.username}`);
         return {
             ...impersonationToken,
             impersonated: true,
@@ -51,11 +55,19 @@ let ImpersonateService = class ImpersonateService {
         };
     }
     async stopImpersonation(moderatorId) {
-        const moderator = await this.usersService.findOne(moderatorId);
-        if (!moderator) {
-            throw new common_1.NotFoundException('User not found');
+        console.log(`Stopping impersonation for user ID: ${moderatorId}`);
+        try {
+            const moderator = await this.usersService.findOne(moderatorId);
+            if (!moderator) {
+                throw new common_1.NotFoundException(`User with id ${moderatorId} not found`);
+            }
+            console.log(`Found moderator: ${moderator.username}, generating refresh token`);
+            return this.authService.refresh(moderator);
         }
-        return this.authService.refresh(moderator);
+        catch (error) {
+            console.error(`Error stopping impersonation: ${error.message}`);
+            throw error;
+        }
     }
 };
 exports.ImpersonateService = ImpersonateService;

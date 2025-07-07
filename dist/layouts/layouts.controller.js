@@ -23,22 +23,22 @@ let LayoutsController = class LayoutsController {
         this.layoutsService = layoutsService;
     }
     findUserLayouts(req, page, zoneId) {
-        return this.layoutsService.findUserLayouts(req.user.userId, page, zoneId);
+        return this.layoutsService.findUserLayouts(req.user.userId || req.user.id, page, zoneId);
     }
     createLayout(createLayoutDto) {
         return this.layoutsService.createLayout(createLayoutDto);
     }
     addCardInstance(req, page, zoneId, addCardInstanceDto) {
-        return this.layoutsService.addCardInstance(req.user.userId, page, zoneId, addCardInstanceDto);
+        return this.layoutsService.addCardInstance(req.user.userId || req.user.id, page, zoneId, addCardInstanceDto);
     }
     removeCardInstance(req, page, cardInstanceId, zoneId) {
-        return this.layoutsService.removeCardInstance(req.user.userId, page, cardInstanceId, zoneId);
+        return this.layoutsService.removeCardInstance(req.user.userId || req.user.id, page, cardInstanceId, zoneId);
     }
     updateCardInstance(req, page, cardInstanceId, updateData, zoneId) {
-        return this.layoutsService.updateCardInstance(req.user.userId, page, cardInstanceId, updateData, zoneId);
+        return this.layoutsService.updateCardInstance(req.user.userId || req.user.id, page, cardInstanceId, updateData, zoneId);
     }
     deleteLayout(req, page, zoneId) {
-        return this.layoutsService.deleteLayout(req.user.userId, page, zoneId);
+        return this.layoutsService.deleteLayout(req.user.userId || req.user.id, page, zoneId);
     }
 };
 exports.LayoutsController = LayoutsController;

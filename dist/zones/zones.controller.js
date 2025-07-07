@@ -24,7 +24,7 @@ let ZonesController = class ZonesController {
         this.zonesService = zonesService;
     }
     create(createZoneDto, req) {
-        return this.zonesService.create(createZoneDto, req.user.userId);
+        return this.zonesService.create(createZoneDto, req.user.userId || req.user.id);
     }
     findAll(parentId) {
         if (parentId) {

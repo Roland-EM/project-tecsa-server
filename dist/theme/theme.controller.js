@@ -21,10 +21,10 @@ let ThemeController = class ThemeController {
         this.themeService = themeService;
     }
     getUserTheme(req) {
-        return this.themeService.getUserTheme(req.user.userId);
+        return this.themeService.getUserTheme(req.user.userId || req.user.id);
     }
     updateUserTheme(req, body) {
-        return this.themeService.updateUserTheme(req.user.userId, body.theme);
+        return this.themeService.updateUserTheme(req.user.userId || req.user.id, body.theme);
     }
     getAvailableThemes() {
         return this.themeService.getAvailableThemes();

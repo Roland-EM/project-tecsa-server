@@ -11,12 +11,17 @@ export class ImpersonateService {
   ) {}
 
   async impersonateUser(moderatorId: string, targetUserId: string): Promise<any> {
+    console.log(`Impersonation request - moderator: ${moderatorId}, target: ${targetUserId}`);
+    
     const moderator = await this.usersService.findOne(moderatorId);
     const targetUser = await this.usersService.findOne(targetUserId);
 
     if (!moderator || !targetUser) {
-      throw new NotFoundException('User not found');
+      const missingUser = !moderator ? 'moderator' : 'target user';
+      throw new NotFoundException(`${missingUser} not found`);
     }
+
+    console.log(`Moderator role: ${moderator.role}, Target role: ${targetUser.role}`);
 
     // Only owners and admins can impersonate
     if (moderator.role !== Role.OWNER && moderator.role !== Role.ADMIN) {
@@ -35,6 +40,8 @@ export class ImpersonateService {
     // Generate impersonation token
     const impersonationToken = await this.authService.refresh(targetUser);
 
+    console.log(`Impersonation successful - token generated for ${targetUser.username}`);
+    
     return {
       ...impersonationToken,
       impersonated: true,
@@ -52,12 +59,20 @@ export class ImpersonateService {
   }
 
   async stopImpersonation(moderatorId: string): Promise<any> {
-    const moderator = await this.usersService.findOne(moderatorId);
+    console.log(`Stopping impersonation for user ID: ${moderatorId}`);
     
-    if (!moderator) {
-      throw new NotFoundException('User not found');
-    }
+    try {
+      const moderator = await this.usersService.findOne(moderatorId);
+    
+      if (!moderator) {
+        throw new NotFoundException(`User with id ${moderatorId} not found`);
+      }
 
-    return this.authService.refresh(moderator);
+      console.log(`Found moderator: ${moderator.username}, generating refresh token`);
+      return this.authService.refresh(moderator);
+    } catch (error) {
+      console.error(`Error stopping impersonation: ${error.message}`);
+      throw error;
+    }
   }
 }

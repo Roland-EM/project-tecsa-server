@@ -18,7 +18,7 @@ async function bootstrap() {
   
   // Swagger documentation
   const config = new DocumentBuilder()
-    .setTitle('Smart Home Control API')
+    .setTitle('TECSA Smart Control API')
     .setDescription('Enterprise IoT Control System')
     .setVersion('1.0')
     .addBearerAuth()

@@ -483,6 +483,15 @@ async function testImpersonation() {
     
     // Cleanup
     await apiRequest('DELETE', `/users/${testUser.id}`);
+  } else {
+    // Dacă nu s-a putut crea utilizatorul, testează cu admin existent
+    log('⚠️ Nu s-a putut crea utilizator test, folosesc admin pentru test minimal', 'warning');
+    
+    // Încearcă să impersoneze admin-ul pe el însuși (ar trebui să eșueze)
+    const selfImpersonateResult = await apiRequest('POST', '/impersonate/start', {
+      targetUserId: 'admin'
+    });
+    test('Impersonare self (ar trebui să eșueze)', !selfImpersonateResult.success);
   }
 }
 
