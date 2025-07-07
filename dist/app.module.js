@@ -21,6 +21,7 @@ const zones_module_1 = require("./zones/zones.module");
 const control_module_1 = require("./control/control.module");
 const theme_module_1 = require("./theme/theme.module");
 const impersonate_module_1 = require("./impersonate/impersonate.module");
+const config_service_1 = require("./core/config.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,10 +32,10 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
             }),
             mongoose_1.MongooseModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
+                imports: [core_module_1.CoreModule],
+                inject: [config_service_1.ConfigService],
                 useFactory: async (configService) => ({
-                    uri: configService.get('MONGO_URI'),
+                    uri: configService.mongoUri,
                     serverSelectionTimeoutMS: 5000,
                 }),
             }),

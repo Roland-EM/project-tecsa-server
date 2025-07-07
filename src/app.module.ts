@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService as NestConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
@@ -12,6 +12,7 @@ import { ZonesModule } from './zones/zones.module';
 import { ControlModule } from './control/control.module';
 import { ThemeModule } from './theme/theme.module';
 import { ImpersonateModule } from './impersonate/impersonate.module';
+import { ConfigService } from './core/config.service';
 
 @Module({
   imports: [
@@ -19,10 +20,10 @@ import { ImpersonateModule } from './impersonate/impersonate.module';
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [NestConfigService],
-      useFactory: async (configService: NestConfigService): Promise<MongooseModuleOptions> => ({
-        uri: configService.get<string>('MONGO_URI'),
+      imports: [CoreModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService): Promise<MongooseModuleOptions> => ({
+        uri: configService.mongoUri,
         serverSelectionTimeoutMS: 5000, // Reduce timeout for faster feedback during connection issues
       }),
     }),
